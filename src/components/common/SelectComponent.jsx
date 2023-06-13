@@ -6,13 +6,13 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const SelectComponent = ({
+  children,
   selectValue,
   handleChange,
   placeholder,
-  selectOptions,
 }) => {
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 170 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{placeholder}</InputLabel>
         <Select
@@ -22,11 +22,7 @@ const SelectComponent = ({
           label={placeholder}
           onChange={(e) => handleChange(e.target.value)}
         >
-          {selectOptions?.map((option, index) => (
-            <MenuItem key={index} value={option.id}>
-              {option.name}
-            </MenuItem>
-          ))}
+          {children}
         </Select>
       </FormControl>
     </Box>
