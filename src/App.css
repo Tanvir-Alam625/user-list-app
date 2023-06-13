@@ -2,3 +2,10 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+.tab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

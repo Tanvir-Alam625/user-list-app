@@ -1,15 +1,15 @@
-import React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import UserTab from "../components/UserTab";
+import EmployeeTab from "../components/EmployeeTab";
 const HomePage = () => {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const handleChange = (event, newValue) => setValue(newValue);
   return (
     <div>
       <TabContext value={value}>
@@ -19,8 +19,12 @@ const HomePage = () => {
             <Tab label="Employee" value="2" />
           </TabList>
         </Box>
-        <TabPanel value="1">User</TabPanel>
-        <TabPanel value="2">Em</TabPanel>
+        <TabPanel value="1">
+          <UserTab />
+        </TabPanel>
+        <TabPanel value="2">
+          <EmployeeTab />
+        </TabPanel>
       </TabContext>
     </div>
   );
