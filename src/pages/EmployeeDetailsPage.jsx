@@ -60,35 +60,37 @@ const EmployeeDetailsPage = () => {
               </span>
             </Typography>
             <Typography variant="div" style={typoStyle}>
-              <span>EMPLOYEE ID:</span> <span>{userInfo.empID}</span>
+              <span>EMPLOYEE ID</span> <span>{userInfo.empID}</span>
             </Typography>
             <Typography variant="div" style={typoStyle}>
-              <span>FULL NAME:</span>{" "}
+              <span>FULL NAME</span>{" "}
               <span>
                 {userInfo.firstName} {userInfo.lastName}
               </span>
             </Typography>
             <Typography variant="div" style={typoStyle}>
-              <span>EMPLOYEE TYPE:</span> <span>{userInfo.employeeType}</span>
+              <span>EMPLOYEE TYPE</span> <span>{userInfo.employeeType}</span>
             </Typography>
             <Typography variant="div" style={typoStyle}>
-              <span>DIVISION NAME:</span>{" "}
+              <span>DIVISION NAME</span>{" "}
               <span>
-                {userInfo.disvision ? userInfo.disvision : "No Value"}
+                {userInfo.disvision ? userInfo.disvision : "No Value Found"}
               </span>
             </Typography>
             <Typography variant="div" style={typoStyle}>
-              <span>DIVISION ID:</span> <span>{userInfo.divisionId}</span>
+              <span>DIVISION ID</span> <span>{userInfo.divisionId}</span>
             </Typography>
             <Typography variant="div" style={typoStyle}>
               <span>DISTRICT NAME:</span>{" "}
-              <span>{userInfo.district ? userInfo.district : "No Value"}</span>
+              <span>
+                {userInfo.district ? userInfo.district : "No Value Found"}
+              </span>
             </Typography>
             <Typography
               variant="div"
               style={{ ...typoStyle, borderBottom: "none" }}
             >
-              <span>DISTRICT ID:</span> <span>{userInfo.districeID}</span>
+              <span>DISTRICT ID</span> <span>{userInfo.districeID}</span>
             </Typography>
           </div>
         </CardContent>
