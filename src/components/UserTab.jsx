@@ -11,7 +11,7 @@ import { Typography } from "@mui/material";
 import ModalComponent from "./Modal";
 import { columns } from "./TableColumns";
 import { DataGrid } from "@mui/x-data-grid";
-import { findAdminUser } from "../utils/adminUsers";
+import { findUser } from "../utils/findUsers";
 const UserTab = () => {
   const [selectDivision, setSelectDivision] = useState("");
   const [selectDistrict, setSelectDistrict] = useState("");
@@ -19,24 +19,28 @@ const UserTab = () => {
   const [districts, setDistrict] = useState(null);
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState([]);
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
+    setDataLoading(true);
     const fetchDivision = async () => {
       try {
         const { readDivisionData } = await getDivision();
         setDivisions(readDivisionData);
-        const user = await findAdminUser();
+        const user = await findUser("Admin", selectDivision, selectDistrict);
         setUserData(user);
+        setDataLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchDivision();
-  }, []);
+  }, [selectDivision, selectDistrict]);
 
   const handleChangeDivision = async (event) => {
     const value = event.target.value;
     setSelectDivision(value);
+    setSelectDistrict("");
     try {
       const { readDistrictData } = await getDistrict(value);
       setDistrict(readDistrictData);
@@ -53,7 +57,7 @@ const UserTab = () => {
   return (
     <div>
       <Typography variant="h5" sx={{ margin: "0 0 20px 0" }}>
-        User List
+        Admin List
       </Typography>
       <div className="tab-header">
         <div className="select-container">
@@ -106,7 +110,7 @@ const UserTab = () => {
           </Box>
         </div>
         <Button onClick={() => setOpen(true)} variant="contained">
-          Add User
+          Add Admin
         </Button>
       </div>
       <div className="tab-content">
@@ -114,7 +118,7 @@ const UserTab = () => {
           <DataGrid
             rows={userData && userData}
             columns={columns}
-            loading={!userData.length}
+            loading={dataLoading}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },

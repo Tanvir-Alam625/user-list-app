@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router";
 import { getSingleUser } from "../service/api";
-import { DataGrid } from "@mui/x-data-grid";
 
 const EmployeeDetailsPage = () => {
   const { id } = useParams();

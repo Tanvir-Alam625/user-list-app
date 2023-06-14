@@ -12,6 +12,7 @@ import { columns } from "./TableColumns";
 import { DataGrid } from "@mui/x-data-grid";
 import ModalComponent from "./Modal";
 import { findEmployeeUser } from "../utils/employeeUsers";
+import { findUser } from "../utils/findUsers";
 const EmployeeTab = () => {
   const [selectDivision, setSelectDivision] = useState("");
   const [selectDistrict, setSelectDistrict] = useState("");
@@ -19,24 +20,28 @@ const EmployeeTab = () => {
   const [districts, setDistrict] = useState(null);
   const [open, setOpen] = useState(false);
   const [employeeData, setEmployeeData] = useState([]);
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
+    setDataLoading(true);
     const fetchDivision = async () => {
       try {
         const { readDivisionData } = await getDivision();
         setDivisions(readDivisionData);
-        const user = await findEmployeeUser();
+        const user = await findUser("Employee", selectDivision, selectDistrict);
         setEmployeeData(user);
+        setDataLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchDivision();
-  }, []);
+  }, [selectDivision, selectDistrict]);
 
   const handleChangeDivision = async (event) => {
     const value = event.target.value;
     setSelectDivision(value);
+    setSelectDistrict("");
     try {
       const { readDistrictData } = await getDistrict(value);
       setDistrict(readDistrictData);
@@ -114,7 +119,7 @@ const EmployeeTab = () => {
           <DataGrid
             rows={employeeData && employeeData}
             columns={columns}
-            loading={!employeeData.length}
+            loading={dataLoading}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },
