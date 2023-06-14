@@ -12,6 +12,8 @@ import ModalComponent from "./Modal";
 import { columns } from "./TableColumns";
 import { DataGrid } from "@mui/x-data-grid";
 import { findUser } from "../utils/findUsers";
+
+const employeeType = "Admin";
 const UserTab = () => {
   const [selectDivision, setSelectDivision] = useState("");
   const [selectDistrict, setSelectDistrict] = useState("");
@@ -27,7 +29,11 @@ const UserTab = () => {
       try {
         const { readDivisionData } = await getDivision();
         setDivisions(readDivisionData);
-        const user = await findUser("Admin", selectDivision, selectDistrict);
+        const user = await findUser(
+          employeeType,
+          selectDivision,
+          selectDistrict
+        );
         setUserData(user);
         setDataLoading(false);
       } catch (error) {
@@ -130,7 +136,12 @@ const UserTab = () => {
           />
         </div>
       </div>
-      <ModalComponent open={open} setOpen={setOpen} />
+      <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        divisions={divisions}
+        employeeType={employeeType}
+      />
     </div>
   );
 };

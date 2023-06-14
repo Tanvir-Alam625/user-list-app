@@ -11,8 +11,9 @@ import { Typography } from "@mui/material";
 import { columns } from "./TableColumns";
 import { DataGrid } from "@mui/x-data-grid";
 import ModalComponent from "./Modal";
-import { findEmployeeUser } from "../utils/employeeUsers";
 import { findUser } from "../utils/findUsers";
+const employeeType = "Employee";
+
 const EmployeeTab = () => {
   const [selectDivision, setSelectDivision] = useState("");
   const [selectDistrict, setSelectDistrict] = useState("");
@@ -28,7 +29,11 @@ const EmployeeTab = () => {
       try {
         const { readDivisionData } = await getDivision();
         setDivisions(readDivisionData);
-        const user = await findUser("Employee", selectDivision, selectDistrict);
+        const user = await findUser(
+          employeeType,
+          selectDivision,
+          selectDistrict
+        );
         setEmployeeData(user);
         setDataLoading(false);
       } catch (error) {
@@ -131,7 +136,12 @@ const EmployeeTab = () => {
           />
         </div>
       </div>
-      <ModalComponent open={open} setOpen={setOpen} />
+      <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        divisions={divisions}
+        employeeType={employeeType}
+      />
     </div>
   );
 };
