@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 import { columns } from "./TableColumns";
 import { DataGrid } from "@mui/x-data-grid";
-import ModalComponent from "./Modal";
+import ModalComponent from "./CreateModal";
 import { findUser } from "../utils/findUsers";
 const employeeType = "Employee";
 

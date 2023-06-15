@@ -8,7 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
-import ModalComponent from "./Modal";
+import ModalComponent from "./CreateModal";
 import { columns } from "./TableColumns";
 import { DataGrid } from "@mui/x-data-grid";
 import { findUser } from "../utils/findUsers";
