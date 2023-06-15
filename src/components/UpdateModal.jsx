@@ -8,9 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { createEmployee, getDistrict } from "../service/api";
+import { getDistrict, updateEmployee } from "../service/api";
 import { useFormik } from "formik";
-import { createEmployeeSchema } from "../utils/validationSchema";
+import { updateEmployeeSchema } from "../utils/validationSchema";
 import { toast } from "react-hot-toast";
 
 const style = {
@@ -29,33 +29,33 @@ const ModalComponent = ({
   setOpen,
   open,
   divisions,
-  employeeType,
-  refresh,
+  userInfo,
   setRefresh,
+  refresh,
 }) => {
   const handleClose = () => setOpen(false);
   const [district, setDistrict] = useState([]);
   const initialValues = {
-    firstName: "",
-    lastName: "",
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
     divisionID: "",
     districeID: "",
-    employeeType: employeeType,
+    employeeType: "",
   };
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: createEmployeeSchema,
+    validationSchema: updateEmployeeSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      const createUser = await createEmployee(values);
+      const createUser = await updateEmployee(userInfo.empID, values);
       if (createUser.isSuccess) {
         setOpen(false);
-        toast.success(`SuccessFully created ${employeeType}`, {
+        toast.success(`SuccessFully created ${userInfo.employeeType}`, {
           position: "top-center",
         });
         setRefresh(!refresh);
       } else {
         setOpen(false);
-        toast.error(`Couldn't create ${employeeType}`, {
+        toast.error(`Couldn't create ${userInfo.employeeType}`, {
           position: "top-center",
         });
       }
@@ -86,7 +86,7 @@ const ModalComponent = ({
             color="#37474f"
             sx={{ margin: "20px", textAlign: "center" }}
           >
-            Add {employeeType} User
+            Update {userInfo.employeeType} User
           </Typography>
 
           <form
@@ -96,6 +96,7 @@ const ModalComponent = ({
             <TextField
               label="First Name"
               name="firstName"
+              defaultValue={userInfo.firstName}
               error={
                 formik?.touched?.firstName && Boolean(formik?.errors?.firstName)
               }
@@ -111,6 +112,7 @@ const ModalComponent = ({
             <TextField
               label="Last Name"
               name="lastName"
+              defaultValue={userInfo.lastName}
               error={
                 formik?.touched?.lastName && Boolean(formik.errors.lastName)
               }
@@ -127,6 +129,7 @@ const ModalComponent = ({
               <InputLabel>Division Name</InputLabel>
               <Select
                 name="divisionID"
+                defaultValue={userInfo.divisionID}
                 error={
                   formik?.touched?.divisionID &&
                   Boolean(formik.errors.divisionID)
@@ -159,6 +162,7 @@ const ModalComponent = ({
                 value={formik.values.districeID}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                defaultValue={userInfo.districeID}
                 label="District Name"
               >
                 {district &&
@@ -177,20 +181,28 @@ const ModalComponent = ({
             <FormControl>
               <InputLabel>Employee Type</InputLabel>
               <Select
-                disabled
-                defaultValue={employeeType}
+                defaultValue={userInfo.employeeType}
                 value={formik.values.employeeType}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 label="Employee Type"
                 name="employeeType"
+                error={
+                  formik.touched.employeeType &&
+                  Boolean(formik.errors.employeeType)
+                }
               >
                 <MenuItem value="Employee">Employee</MenuItem>
                 <MenuItem value="Admin">Admin</MenuItem>
               </Select>
+              {formik.touched.employeeType ? (
+                <span style={{ color: "red", fontSize: "12px" }}>
+                  {formik.errors.employeeType}
+                </span>
+              ) : null}
             </FormControl>
             <Button type="submit" variant="contained" color="primary">
-              Add {employeeType}
+              Update {userInfo.employeeType}
             </Button>
           </form>
         </Box>

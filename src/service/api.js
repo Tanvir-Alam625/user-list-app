@@ -74,12 +74,35 @@ export const createEmployee = async (employeeData) => {
       }
     );
     if (!response.ok) {
-      throw new Error("Couldn't create User ");
+      throw new Error("Couldn't create Employee ");
     }
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error("Error while fetching user data:", error);
+    console.error("Error while fetching Employee data:", error);
+    throw error;
+  }
+};
+
+// API: for update Employee info
+
+export const updateEmployee = async (id, updatedData) => {
+  try {
+    const response = await fetch(
+      `${baseURI}/Employee/UpdateEmployeeInformation/${id}`,
+      {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(updatedData),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Couldn't Update Employee ");
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error while fetching Employee data:", error);
     throw error;
   }
 };

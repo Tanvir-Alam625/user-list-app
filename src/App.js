@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Toaster } from "react-hot-toast";
+import { PuffLoader } from "react-spinners";
 import "./App.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -10,7 +11,21 @@ function App() {
   return (
     <div className="app">
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                height: "100vh",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <PuffLoader color="#1565C0" size={70} />
+            </div>
+          }
+        >
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/employee/:id" element={<EmployeeDetailsPage />} />

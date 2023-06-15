@@ -4,23 +4,28 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router";
-import { getSingleUser } from "../service/api";
-
+import { getDivision, getSingleUser } from "../service/api";
+import ModalComponent from "../components/UpdateModal";
+import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 const EmployeeDetailsPage = () => {
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState({});
+  const [open, setOpen] = useState(false);
+  const [divisions, setDivisions] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     const fetchUserInformation = async () => {
       try {
         const { readEmployeeData } = await getSingleUser(id);
         setUserInfo(readEmployeeData[0]);
+        const { readDivisionData } = await getDivision();
+        setDivisions(readDivisionData);
       } catch (error) {
         console.log(error);
       }
     };
     fetchUserInformation();
-  }, [id]);
-  console.log(userInfo);
+  }, [id, refresh]);
   const typoStyle = {
     display: "flex",
     alignItems: "center",
@@ -45,8 +50,15 @@ const EmployeeDetailsPage = () => {
             <Typography gutterBottom variant="h5" component="div">
               Information
             </Typography>
-            <Button variant="contained" size="small">
+            <Button
+              variant="contained"
+              onClick={() => setOpen(true)}
+              size="small"
+            >
               Edit
+              <EditNoteOutlinedIcon
+                style={{ fontSize: "16px", marginLeft: "5px" }}
+              />
             </Button>
           </div>
           <div style={{ width: "100%" }}>
@@ -94,6 +106,14 @@ const EmployeeDetailsPage = () => {
           </div>
         </CardContent>
       </Card>
+      <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        divisions={divisions}
+        userInfo={userInfo}
+        setRefresh={setRefresh}
+        refresh={refresh}
+      />
     </>
   );
 };

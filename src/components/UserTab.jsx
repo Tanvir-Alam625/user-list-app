@@ -12,6 +12,7 @@ import ModalComponent from "./CreateModal";
 import { columns } from "./TableColumns";
 import { DataGrid } from "@mui/x-data-grid";
 import { findUser } from "../utils/findUsers";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const employeeType = "Admin";
 const UserTab = () => {
@@ -22,6 +23,7 @@ const UserTab = () => {
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     setDataLoading(true);
@@ -41,7 +43,7 @@ const UserTab = () => {
       }
     };
     fetchDivision();
-  }, [selectDivision, selectDistrict]);
+  }, [selectDivision, selectDistrict, refresh]);
 
   const handleChangeDivision = async (event) => {
     const value = event.target.value;
@@ -115,8 +117,17 @@ const UserTab = () => {
             </FormControl>
           </Box>
         </div>
-        <Button onClick={() => setOpen(true)} variant="contained">
-          Add Admin
+        <Button
+          onClick={() => setOpen(true)}
+          variant="contained"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <span style={{ marginRight: "5px" }}>Admin</span>
+          <AddCircleOutlineIcon style={{ fontSize: "16px" }} />
         </Button>
       </div>
       <div className="tab-content">
@@ -141,6 +152,8 @@ const UserTab = () => {
         setOpen={setOpen}
         divisions={divisions}
         employeeType={employeeType}
+        setRefresh={setRefresh}
+        refresh={refresh}
       />
     </div>
   );
